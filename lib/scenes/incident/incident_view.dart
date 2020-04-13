@@ -1,10 +1,12 @@
-import 'package:app_be_the_hero_madeinflutter/model/incident/Incident.dart';
+import 'package:app_be_the_hero_madeinflutter/common/components/InkwellContainerButton.dart';
+import 'package:app_be_the_hero_madeinflutter/common/components/loader.dart';
+import 'package:app_be_the_hero_madeinflutter/extension/currency_formatter.dart';
+import 'package:app_be_the_hero_madeinflutter/extension/custom_color_scheme.dart';
 import 'package:app_be_the_hero_madeinflutter/model/incident/IncidentResponse.dart';
 import 'package:app_be_the_hero_madeinflutter/scenes/incident/incident_contract.dart';
 import 'package:app_be_the_hero_madeinflutter/scenes/incident/incident_presenter.dart';
+import 'package:app_be_the_hero_madeinflutter/scenes/incident_details/incident_details_view.dart';
 import 'package:flutter/material.dart';
-
-import 'package:app_be_the_hero_madeinflutter/extension/currency_formatter.dart';
 
 class IncidentWidget extends StatefulWidget {
   @override
@@ -15,9 +17,11 @@ class _IncidentWidgetState extends State<IncidentWidget>
     implements IncidentContract {
   IncidentPresenter presenter;
 
+  bool isLoading = true;
+
   List<IncidentResponse> _incidentList = new List<IncidentResponse>();
 
-  _IncidentWidgetState(){
+  _IncidentWidgetState() {
     this.presenter = new IncidentPresenter(this);
   }
 
@@ -30,20 +34,28 @@ class _IncidentWidgetState extends State<IncidentWidget>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Container(
-        padding: EdgeInsets.all(16.0),
-        child: columnOfIncidents(context),
-      ),
+      backgroundColor: Theme.of(context).colorScheme.main,
+      body: _incidentsContainer(context),
     );
   }
 
-  Column columnOfIncidents(BuildContext context) {
+  Widget _incidentsContainer(BuildContext context) {
+    if (this.isLoading) {
+      return LoadingWidget();
+    } else {
+      return Container(
+        padding: EdgeInsets.all(16.0),
+        child: _incidentsColumn(context),
+      );
+    }
+  }
+
+  Column _incidentsColumn(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        rowOfHeader(context),
+        _headerRowIncidents(context),
         SizedBox(
           height: 35,
         ),
@@ -52,7 +64,7 @@ class _IncidentWidgetState extends State<IncidentWidget>
           style: TextStyle(
               fontSize: MediaQuery.of(context).size.height * 0.045,
               fontWeight: FontWeight.bold,
-              color: Colors.black),
+              color: Theme.of(context).colorScheme.black),
         ),
         SizedBox(
           height: 20,
@@ -61,90 +73,90 @@ class _IncidentWidgetState extends State<IncidentWidget>
           "Escolha um dos casos abaixo e salve o dia.",
           style: TextStyle(
               fontSize: MediaQuery.of(context).size.height * 0.028,
-              color: Colors.grey[600]),
+              color: Theme.of(context).colorScheme.grey),
         ),
-        SizedBox(height: 40),
-        cardOfIncidents(context),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.05,
+        ),
+        _cardIncidents(context),
       ],
     );
   }
 
-  Expanded cardOfIncidents(BuildContext context) {
+  Expanded _cardIncidents(BuildContext context) {
     return Expanded(
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        color: Colors.white70,
-        margin: EdgeInsets.only(right: 3, left: 3),
-        child: ListView.builder(
-            itemCount: _incidentList.length,
-            itemBuilder: (context, index) {
-              return _itemCard(context, _incidentList[index]);
-            }),
-      ),
+      child: ListView.builder(
+          itemCount: _incidentList.length,
+          itemBuilder: (context, index) {
+            return _itemCard(context, _incidentList[index]);
+          }),
     );
   }
 
   Card _itemCard(BuildContext context, IncidentResponse incident) {
     return Card(
       child: Container(
-        padding:
-            EdgeInsets.all(MediaQuery.of(context).size.height * 0.03),
+        padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.03),
         width: MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              "ONG:",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold, color: Colors.black),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(incident.name),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              "CASO:",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold, color: Colors.black),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(incident.title),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "VALOR:",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold, color: Colors.black),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text("${incident.value.toCurrency()}"),
-            SizedBox(
-              height: 10,
-            ),
-            btnShowDetails(),
-          ],
-        ),
+        child: _bodyOfItemCard(incident),
       ),
     );
   }
 
-  Row rowOfHeader(BuildContext context) {
+  Column _bodyOfItemCard(IncidentResponse incident) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          "ONG:",
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.black),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Text(incident.name),
+        SizedBox(
+          height: 20,
+        ),
+        Text(
+          "CASO:",
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.black),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Text(incident.title),
+        SizedBox(
+          height: 10,
+        ),
+        Text(
+          "VALOR:",
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.black),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Text("${incident.value.toCurrency()}"),
+        SizedBox(
+          height: 10,
+        ),
+        _btnShowDetailsItemCard(incident),
+      ],
+    );
+  }
+
+  Row _headerRowIncidents(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Container(
-          color: Colors.white,
           height: MediaQuery.of(context).size.height * 0.10,
           width: MediaQuery.of(context).size.width * 0.30,
           child: Image.asset(
@@ -160,37 +172,43 @@ class _IncidentWidgetState extends State<IncidentWidget>
     );
   }
 
-  InkWell btnShowDetails() {
-    return InkWell(
-      onTap: () => null,
-      child: Container(
-        padding: EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              "Ver mais detalhes",
-              style: TextStyle(color: Colors.red[600], fontSize: 16),
-            ),
-            Icon(
-              Icons.navigate_next,
-              color: Colors.red[600],
-            ),
-          ],
-        ),
-      ),
-    );
+  Widget _btnShowDetailsItemCard(IncidentResponse incident) {
+    return InkwellWidget(
+        "Ver mais detalhes",
+        () => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => IncidentDetailsWidget(incident))));
   }
 
   @override
-  void showError() {
-    // TODO: implement showError
+  void showError(String e) {
+    setState(() {
+      //return Center(child: Text("Error", style: TextStyle(fontSize: 4000.0),));
+    });
   }
 
   @override
   void showIncidents(List<IncidentResponse> incident) {
     setState(() {
       this._incidentList = incident;
+      print("Showincidents " + isLoading.toString());
+    });
+  }
+
+  @override
+  void hideLoading() {
+    setState(() {
+      this.isLoading = false;
+      print(isLoading);
+    });
+  }
+
+  @override
+  void showLoading() {
+    setState(() {
+      this.isLoading = true;
+      print(isLoading);
     });
   }
 }
