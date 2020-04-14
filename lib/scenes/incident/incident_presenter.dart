@@ -13,12 +13,12 @@ class IncidentPresenter {
 
   loadIncidents() {
     _view.showLoading();
-    _incidentRepository
-        .searchAll()
-        .then((o) {
-          _view.hideLoading();
-          _view.showIncidents(o);
-        })
-        .catchError((e) => _view.showError(e.toString()));
+    _incidentRepository.searchAll().then((o) {
+      _view.hideLoading();
+      _view.showIncidents(o);
+    }).catchError((e) {
+      _view.hideLoading();
+      _view.showError(e.toString());
+    });
   }
 }

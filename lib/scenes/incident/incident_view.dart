@@ -1,4 +1,5 @@
 import 'package:app_be_the_hero_madeinflutter/common/components/InkwellContainerButton.dart';
+import 'package:app_be_the_hero_madeinflutter/common/components/containerLogo.dart';
 import 'package:app_be_the_hero_madeinflutter/common/components/loader.dart';
 import 'package:app_be_the_hero_madeinflutter/extension/currency_formatter.dart';
 import 'package:app_be_the_hero_madeinflutter/extension/custom_color_scheme.dart';
@@ -18,6 +19,7 @@ class _IncidentWidgetState extends State<IncidentWidget>
   IncidentPresenter presenter;
 
   bool isLoading = true;
+  String hasError = "";
 
   List<IncidentResponse> _incidentList = new List<IncidentResponse>();
 
@@ -45,9 +47,68 @@ class _IncidentWidgetState extends State<IncidentWidget>
     } else {
       return Container(
         padding: EdgeInsets.all(16.0),
-        child: _incidentsColumn(context),
+        child: hasErrorVerify(),
       );
     }
+  }
+
+  Widget hasErrorVerify() {
+    if (hasError.length > 0) {
+      return _errorWidget();
+    } else {
+      return _incidentsColumn(context);
+    }
+  }
+
+  Column _errorWidget() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            ContainerLogoWidget("lib/assets/images/logo.png"),
+            Text(
+              "Não há resultados",
+              style: TextStyle(fontSize: 16.0, color: Colors.grey[800]),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 35,
+        ),
+        Text(
+          "Bem-vindo!",
+          style: TextStyle(
+              fontSize: MediaQuery.of(context).size.height * 0.045,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.black),
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.1,
+        ),
+        Center(
+          child: Column(
+            children: <Widget>[
+              Text(
+                "Ocorreu um erro Hero! :(",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.height * 0.035,
+                    color: Theme.of(context).colorScheme.black,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 30,),
+              Icon(
+                Icons.error,
+                color: Theme.of(context).colorScheme.grey,
+                size: 120,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   Column _incidentsColumn(BuildContext context) {
@@ -156,16 +217,9 @@ class _IncidentWidgetState extends State<IncidentWidget>
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Container(
-          height: MediaQuery.of(context).size.height * 0.10,
-          width: MediaQuery.of(context).size.width * 0.30,
-          child: Image.asset(
-            'lib/assets/images/logo.png',
-            fit: BoxFit.none,
-          ),
-        ),
+        ContainerLogoWidget("lib/assets/images/logo.png"),
         Text(
-          "Total de ${_incidentList.length} casos.",
+          "Total de ${_incidentList.length > 1 ? "${_incidentList.length} casos" : "${_incidentList.length} caso"}",
           style: TextStyle(fontSize: 16.0, color: Colors.grey[800]),
         ),
       ],
@@ -184,7 +238,7 @@ class _IncidentWidgetState extends State<IncidentWidget>
   @override
   void showError(String e) {
     setState(() {
-      //return Center(child: Text("Error", style: TextStyle(fontSize: 4000.0),));
+      this.hasError = e;
     });
   }
 
@@ -192,7 +246,6 @@ class _IncidentWidgetState extends State<IncidentWidget>
   void showIncidents(List<IncidentResponse> incident) {
     setState(() {
       this._incidentList = incident;
-      print("Showincidents " + isLoading.toString());
     });
   }
 
@@ -200,7 +253,6 @@ class _IncidentWidgetState extends State<IncidentWidget>
   void hideLoading() {
     setState(() {
       this.isLoading = false;
-      print(isLoading);
     });
   }
 
@@ -208,7 +260,6 @@ class _IncidentWidgetState extends State<IncidentWidget>
   void showLoading() {
     setState(() {
       this.isLoading = true;
-      print(isLoading);
     });
   }
 }

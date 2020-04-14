@@ -3,6 +3,7 @@ import 'package:app_be_the_hero_madeinflutter/extension/currency_formatter.dart'
 import 'package:app_be_the_hero_madeinflutter/extension/custom_color_scheme.dart';
 import 'package:app_be_the_hero_madeinflutter/model/incident/IncidentResponse.dart';
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 
 class IncidentDetailsWidget extends StatelessWidget {
   IncidentResponse _incidentDetails;
@@ -25,21 +26,23 @@ class IncidentDetailsWidget extends StatelessWidget {
     );
   }
 
-  Column _bodyOfContainerDetails(context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        _headerRowDetails(context),
-        SizedBox(
-          height: 30,
-        ),
-        _cardDetails(context),
-        SizedBox(
-          height: 15,
-        ),
-        _cardContact(context),
-      ],
+  SingleChildScrollView _bodyOfContainerDetails(context) {
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _headerRowDetails(context),
+          SizedBox(
+            height: 30,
+          ),
+          _cardDetails(context),
+          SizedBox(
+            height: 15,
+          ),
+          _cardContact(context),
+        ],
+      ),
     );
   }
 
@@ -95,21 +98,21 @@ class IncidentDetailsWidget extends StatelessWidget {
         SizedBox(
           height: 15,
         ),
-        _buttonsOfBodyCardContract(),
+        _buttonsOfBodyCardContract(context),
       ],
     );
   }
 
-  Row _buttonsOfBodyCardContract() {
+  Row _buttonsOfBodyCardContract(context) {
     return Row(
       children: <Widget>[
         BtnExpandedWithInkwellWidget(
-            () => print(_incidentDetails.value), "WhatsApp"),
+            () => _share(context, _incidentDetails), "WhatsApp"),
         SizedBox(
           width: 5,
         ),
         BtnExpandedWithInkwellWidget(
-            () => print(_incidentDetails.value), "Email")
+            () => _share(context, _incidentDetails), "Email")
       ],
     );
   }
@@ -152,7 +155,7 @@ class IncidentDetailsWidget extends StatelessWidget {
           height: 20,
         ),
         Text(
-          "CASO:",
+          "CASO: ",
           style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).colorScheme.black),
@@ -160,7 +163,7 @@ class IncidentDetailsWidget extends StatelessWidget {
         SizedBox(
           height: 10,
         ),
-        Text(_incidentDetails.title),
+        Text(_incidentDetails.description),
         SizedBox(
           height: 10,
         ),
@@ -204,4 +207,15 @@ class IncidentDetailsWidget extends StatelessWidget {
       ],
     );
   }
+}
+
+void _share(context, IncidentResponse incident) {
+  final RenderBox box = context.findRenderObject();
+  final String text = "${incident.name} - ${incident.description}";
+
+  print(text);
+
+  Share.share(text,
+      subject: incident.description,
+      sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
 }
