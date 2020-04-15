@@ -18,7 +18,6 @@ class _SplashScreenState extends State<SplashScreen> {
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => IncidentWidget()));
     return true;
-
   }
 
   Future<bool> durationScreen() async {
@@ -30,19 +29,12 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(224, 32, 65, 6),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('lib/assets/images/splash.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ],
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('lib/assets/images/splash.png'),
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );

@@ -1,5 +1,7 @@
 import 'package:app_be_the_hero_madeinflutter/common/components/btnExpandedWithInkwell.dart';
-import 'package:app_be_the_hero_madeinflutter/extension/currency_formatter.dart';
+import 'package:app_be_the_hero_madeinflutter/common/components/containerLogo.dart';
+import 'package:app_be_the_hero_madeinflutter/scenes/incident_details/introductionDetails.dart';
+import 'package:app_be_the_hero_madeinflutter/common/components/showData.dart';
 import 'package:app_be_the_hero_madeinflutter/extension/custom_color_scheme.dart';
 import 'package:app_be_the_hero_madeinflutter/model/incident/IncidentResponse.dart';
 import 'package:flutter/material.dart';
@@ -12,13 +14,17 @@ class IncidentDetailsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return _buildIncidentDetails(context);
+  }
+
+  Widget _buildIncidentDetails(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.main,
       body: _detailsContainer(context),
     );
   }
 
-  Container _detailsContainer(context) {
+  Widget _detailsContainer(context) {
     return Container(
       color: Theme.of(context).colorScheme.main,
       padding: EdgeInsets.all(16.0),
@@ -26,7 +32,7 @@ class IncidentDetailsWidget extends StatelessWidget {
     );
   }
 
-  SingleChildScrollView _bodyOfContainerDetails(context) {
+  Widget _bodyOfContainerDetails(context) {
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -46,7 +52,7 @@ class IncidentDetailsWidget extends StatelessWidget {
     );
   }
 
-  Card _cardContact(context) {
+  Widget _cardContact(context) {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
@@ -57,7 +63,7 @@ class IncidentDetailsWidget extends StatelessWidget {
     );
   }
 
-  Container _bodyOfCardContact(context) {
+  Widget _bodyOfCardContact(context) {
     return Container(
       padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.03),
       width: MediaQuery.of(context).size.width,
@@ -65,45 +71,21 @@ class IncidentDetailsWidget extends StatelessWidget {
     );
   }
 
-  Column _columnOfBodyCardContact(context) {
+  Widget _columnOfBodyCardContact(context) {
+    return _dataOfBody(context);
+  }
+
+  Widget _dataOfBody(context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          "Salve o dia!",
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.black,
-              fontSize: 24),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Text(
-          "Seja o herói desse caso.",
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.black,
-              fontSize: 24),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Text(
-          "Entre em contato: ",
-          style: TextStyle(
-              color: Theme.of(context).colorScheme.grey, fontSize: 18),
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        _buttonsOfBodyCardContract(context),
+        IntroductionWidget(),
+        buttonsOfBodyCardContact(context),
       ],
     );
   }
 
-  Row _buttonsOfBodyCardContract(context) {
+  Widget buttonsOfBodyCardContact(context) {
     return Row(
       children: <Widget>[
         BtnExpandedWithInkwellWidget(
@@ -117,7 +99,7 @@ class IncidentDetailsWidget extends StatelessWidget {
     );
   }
 
-  Card _cardDetails(context) {
+  Widget _cardDetails(context) {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
@@ -128,7 +110,7 @@ class IncidentDetailsWidget extends StatelessWidget {
     );
   }
 
-  Container bodyOfCardDetails(context) {
+  Widget bodyOfCardDetails(context) {
     return Container(
       padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.03),
       width: MediaQuery.of(context).size.width,
@@ -136,84 +118,39 @@ class IncidentDetailsWidget extends StatelessWidget {
     );
   }
 
-  Column _columnOfBodyCardDetails(context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _columnOfBodyCardDetails(context) {
+    return ShowDataWidget(_incidentDetails);
+  }
+
+  Widget _headerRowDetails(context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Text(
-          "ONG:",
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.black),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Text(_incidentDetails.name),
-        SizedBox(
-          height: 20,
-        ),
-        Text(
-          "CASO: ",
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.black),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Text(_incidentDetails.description),
-        SizedBox(
-          height: 10,
-        ),
-        Text(
-          "VALOR:",
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.black),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Text("${_incidentDetails.value.toCurrency()}"),
-        SizedBox(
-          height: 10,
-        ),
+        _containerOfHeaderRowDetails(context, 'lib/assets/images/logo.png'),
+        _iconButtonHeaderRowDetails(context),
       ],
     );
   }
 
-  Row _headerRowDetails(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Container(
-          height: MediaQuery.of(context).size.height * 0.10,
-          width: MediaQuery.of(context).size.width * 0.30,
-          child: Image.asset(
-            'lib/assets/images/logo.png',
-            fit: BoxFit.none,
-          ),
-        ),
-        IconButton(
-          icon: Icon(
-            Icons.chevron_left,
-            color: Theme.of(context).colorScheme.red,
-            size: 32.0,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ],
+  Widget _iconButtonHeaderRowDetails(context) {
+    return IconButton(
+      icon: Icon(
+        Icons.chevron_left,
+        color: Theme.of(context).colorScheme.red,
+        size: 32.0,
+      ),
+      onPressed: () => Navigator.pop(context),
     );
+  }
+
+  Widget _containerOfHeaderRowDetails(context, path) {
+    return ContainerLogoWidget(path);
   }
 }
 
 void _share(context, IncidentResponse incident) {
   final RenderBox box = context.findRenderObject();
   final String text = "${incident.name} - ${incident.description}";
-
-  print(text);
 
   Share.share(text,
       subject: incident.description,

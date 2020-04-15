@@ -8,3 +8,10 @@ de algum tipo de ajuda a pessoas que podem contribuir.
 Esse projeto foi desenvolvimento durante a Semana OmniStack 11.0,
 um evento da @Rocketseat, onde construiram uma aplicação completa com Node.js no back-end,
 ReactJS no front-end e React Native no mobile.
+
+
+Tecnologias utilizadas neste projeto:
+ - Flutter
+ - Dio
+ - intl
+ - share
