@@ -1,6 +1,6 @@
 import 'package:app_be_the_hero_madeinflutter/common/components/btnExpandedWithInkwell.dart';
 import 'package:app_be_the_hero_madeinflutter/common/components/containerLogo.dart';
-import 'package:app_be_the_hero_madeinflutter/scenes/incident_details/introductionDetails.dart';
+import 'package:app_be_the_hero_madeinflutter/common/components/introductionDetails.dart';
 import 'package:app_be_the_hero_madeinflutter/common/components/showData.dart';
 import 'package:app_be_the_hero_madeinflutter/extension/custom_color_scheme.dart';
 import 'package:app_be_the_hero_madeinflutter/model/incident/IncidentResponse.dart';

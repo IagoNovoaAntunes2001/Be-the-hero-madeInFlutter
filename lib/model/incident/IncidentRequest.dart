@@ -12,15 +12,15 @@ class IncidentRequest {
 
   IncidentRequest(
       {this.id,
-        this.title,
-        this.description,
-        this.value,
-        this.ongId,
-        this.name,
-        this.email,
-        this.whatsapp,
-        this.city,
-        this.uf});
+      this.title,
+      this.description,
+      this.value,
+      this.ongId,
+      this.name,
+      this.email,
+      this.whatsapp,
+      this.city,
+      this.uf});
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

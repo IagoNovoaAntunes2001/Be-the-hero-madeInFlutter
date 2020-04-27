@@ -1,7 +1,7 @@
 import 'package:app_be_the_hero_madeinflutter/extension/custom_color_scheme.dart';
 import 'package:flutter/material.dart';
 
-import '../../common/components/containerLogo.dart';
+import 'containerLogo.dart';
 
 class ErrorWidgetNotResults extends StatelessWidget {
   String path;

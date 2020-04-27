@@ -14,8 +14,16 @@ class LoadingWidget extends StatelessWidget {
             backgroundColor: Colors.grey,
           ),
         ),
-        SizedBox(height: 20,),
-        Text("Carregando...", style: TextStyle(color: Colors.black87, fontSize: 18.0, fontWeight: FontWeight.bold),),
+        SizedBox(
+          height: 20,
+        ),
+        Text(
+          "Carregando...",
+          style: TextStyle(
+              color: Colors.black87,
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold),
+        ),
       ],
     );
   }

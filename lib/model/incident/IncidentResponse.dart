@@ -13,18 +13,17 @@ class IncidentResponse {
   String uf;
   List<Incident> lista;
 
-
   IncidentResponse(
       {this.id,
-        this.title,
-        this.description,
-        this.value,
-        this.ongId,
-        this.name,
-        this.email,
-        this.whatsapp,
-        this.city,
-        this.uf});
+      this.title,
+      this.description,
+      this.value,
+      this.ongId,
+      this.name,
+      this.email,
+      this.whatsapp,
+      this.city,
+      this.uf});
 
   IncidentResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -58,6 +57,4 @@ class IncidentResponse {
   String toString() {
     return 'IncidentResponse{id: $id, title: $title, description: $description, value: $value, ongId: $ongId, name: $name, email: $email, whatsapp: $whatsapp, city: $city, uf: $uf, lista: $lista}';
   }
-
-
 }

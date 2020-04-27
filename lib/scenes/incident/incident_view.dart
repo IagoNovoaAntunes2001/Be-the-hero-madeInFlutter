@@ -1,16 +1,16 @@
 import 'package:app_be_the_hero_madeinflutter/common/components/InkwellContainerButton.dart';
 import 'package:app_be_the_hero_madeinflutter/common/components/containerLogo.dart';
+import 'package:app_be_the_hero_madeinflutter/common/components/introductionWidget.dart';
 import 'package:app_be_the_hero_madeinflutter/common/components/loader.dart';
 import 'package:app_be_the_hero_madeinflutter/common/components/showData.dart';
 import 'package:app_be_the_hero_madeinflutter/extension/custom_color_scheme.dart';
 import 'package:app_be_the_hero_madeinflutter/model/incident/IncidentResponse.dart';
 import 'package:app_be_the_hero_madeinflutter/scenes/incident/incident_contract.dart';
 import 'package:app_be_the_hero_madeinflutter/scenes/incident/incident_presenter.dart';
-import 'package:app_be_the_hero_madeinflutter/scenes/incident/introductionWidget.dart';
 import 'package:app_be_the_hero_madeinflutter/scenes/incident_details/incident_details_view.dart';
 import 'package:flutter/material.dart';
 
-import 'errorWidget.dart';
+import '../../common/components/errorWidget.dart';
 
 class IncidentWidget extends StatefulWidget {
   @override

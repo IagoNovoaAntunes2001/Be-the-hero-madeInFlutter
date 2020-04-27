@@ -11,13 +11,10 @@ class Repository {
 
   Future<dynamic> get(String path) async {
     Response response = await this._service().get(path);
-    if (response.statusCode == 200){
-      //print(response.data);
+    if (response.statusCode == 200) {
       return response.data;
     } else {
-      print(response.statusMessage);
       return response.statusCode;
     }
   }
-
 }

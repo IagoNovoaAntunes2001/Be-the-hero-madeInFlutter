@@ -4,7 +4,6 @@ import 'package:app_be_the_hero_madeinflutter/extension/currency_formatter.dart'
 import 'package:app_be_the_hero_madeinflutter/extension/custom_color_scheme.dart';
 
 class ShowDataWidget extends StatelessWidget {
-
   IncidentResponse _incidentDetails;
 
   bool isMainData = false;
@@ -39,7 +38,9 @@ class ShowDataWidget extends StatelessWidget {
         SizedBox(
           height: 10,
         ),
-        Text(isMainData == true ? _incidentDetails.title : _incidentDetails.description),
+        Text(isMainData == true
+            ? _incidentDetails.title
+            : _incidentDetails.description),
         SizedBox(
           height: 10,
         ),
